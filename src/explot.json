@@ -1,0 +1,9 @@
+{
+  "settings": {
+        "value": 19,
+        "policy_file": "http://130.239.131.199/crossdomain.xml",
+         "url": "http://130.239.131.199/explotService/explot.php"
+              
+    }
+    
+}

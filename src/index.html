@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+      <title>Plant Models</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+      <meta name="keywords" content="toronto, visual effects, feature film, intelligent, creatures, graphics, art">
+      <meta name="description" content="Intelligent Creatures is an artist-driven Visual Effects house dedicated to helping some of cinema's finest directors tell some of cinema's most compelling stories.">
+      <meta name="copyright" content="&copy; 2009 Intelligent Creatures Inc.">
+      <script type="text/javascript" src="swfobject.js"></script>
+
+      <script type="text/javascript">
+          function querySt(ji) {
+              hu = window.location.search.substring(1);
+              gy = hu.split("&");
+              for (i = 0; i < gy.length; i++) {
+                  ft = gy[i].split("=");
+                  if (ft[0] == ji) {
+                      return ft[1];
+                  }
+              }
+              return "";
+          }
+          function setUrlHash(url) {
+              parent.location.hash = url;
+          }
+          var flashvars = {};
+          if (querySt("type") != "") {
+              flashvars.type = querySt("type");
+          }
+          if (querySt("agi") != "") {
+              flashvars.agi = querySt("agi");
+          }
+          var params = {
+            scale: "noscale",
+            quality: "best",
+            align: "middle",
+            wmode: "gpu",
+            bgcolor: "#ccc",
+            devicefont: "false",
+            allowScriptAccess: "sameDomain",
+            allowFullScreen: "true",
+            allowNetworking: "all"
+          };
+         var attributes = {};
+         swfobject.embedSWF("ePlant.swf", "mainContent", "100%", "100%", "10.0.0", null, flashvars, params, attributes);
+      </script>
+      <link rel="shortcut icon" type="image/ico" href="favicon.ico">
+  </head>
+  <body>
+      <style>
+        /* Suggestions by: http://blog.deconcept.com/2005/01/02/100-height-and-100-width-xhtml-flash-embed/ */
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+        body, mainContent {
+            background-color: #cccc;
+            background: url(/images/career_background.png);
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            font-family: Arial;
+            color: #999;
+            height: 100%;
+            overflow: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: #ccc;
+        }
+      </style>
+      <div id="mainContent" style="height: 100%">
+         <br><br>
+         <table width="500" align="center">
+            <tr>
+              <td>
+                  <h1>Browser Flash Support</h1>
+                  In order to use the ePlant Browser, you will require the latest version of Flash (v10). Please follow the link below to continue. If you continue to have trouble contact the system administrator.
+                  <br><br>
+                  <a href="http://get.adobe.com/flashplayer/"><img border="0" src="http://www.adobe.com/images/shared/download_buttons/get_adobe_flash_player.png"></a>
+                  <br><br>
+              </td>
+            </tr>
+        </table>
+      </div>
+  </body>
+</html>

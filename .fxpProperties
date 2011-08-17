@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="ff762c47-faaa-4621-a749-d4b6885d1e4e" projectUUID="ff762c47-faaa-4621-a749-d4b6885d1e4e" sdkVersion="4.1.0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8" version="4">
+  <projects/>
+  <src/>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+    <linked location="C:/Users/Chanaka/finalone/dilshani/libs" path="/libs" position="1" uuid="0f67c051-2ef6-49c1-8ad0-85998d66723f"/>
+  </swc>
+  <misc>
+    <linked location="C:/wamp/www/explot1" path="/bin-release" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+    <linked location="C:/wamp/www/explot12" path="/bin-release1" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+    <linked location="C:/wamp/www/explot123" path="/bin-release2" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+    <linked location="C:/wamp/www/explot1234" path="/bin-release3" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+    <linked location="C:/wamp/www/explot12345" path="/bin-release4" position="0" uuid="de292f31-5b79-43c1-8f9f-4614e86960e8"/>
+  </misc>
+  <theme/>
+</fxpProperties>
