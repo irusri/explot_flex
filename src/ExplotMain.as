@@ -104,13 +104,59 @@ public var myChartTree:fr.kapit.components.treemap.TreeMap=new TreeMap();
 [Bindable]
 public var legendTree:TreeMapLegend= new TreeMapLegend();
 
-
+[Bindable]
+private var explotArraycol:ArrayCollection=new ArrayCollection();
+[Bindable]
+private var intType:String=new String();
 
 [Bindable]
 public var cantfind:String="";
-private function eplant_init() : void {
+private function eplant_init2() : void {
 	serve_getConfigData.send();
 }
+
+
+// Flashvar init
+private function eplant_init():void{
+
+
+	input_AGI.text = FlexGlobals.topLevelApplication.parameters.id;
+	intType= FlexGlobals.topLevelApplication.parameters.type;
+	//input_GO.text="GO:0043231"
+	if(input_AGI.text!=""){
+		dataSend();
+	}else{
+		input_AGI.text="POPTR_0001s28340, POPTR_0001s28400";
+		intType="bar";
+		dataSend();
+	}
+
+	
+	
+	
+	
+	//serve_getConfigData.send();
+}
+private function dataSend():void{
+	//	var g: Graph = new Graph();
+	//s.dataProvider=[];
+	explotArraycol=new ArrayCollection();
+		
+	var str:String =input_AGI.text;
+	var pattern:RegExp = /,/gi;
+	var a:Array = str.replace(pattern, " ").split(/\s+/);
+	for(var h:int=0;h<a.length;h++){
+		var base:String = modelConfig.settings.url+"?primaryGene="+a[h]+"&type="+intType;//	serve_getTranscriptData.url =modelConfig.settings.url+"?id="+a[h];
+		serve_getExpressionData.url = base ;
+		serve_getExpressionData.send();
+	}
+	
+	
+	
+}
+
+//FLashvar init end
+
 
 private function handle_config_files(event:ResultEvent):void {
 	modelConfig = (JSON.decode(String(event.result)));
