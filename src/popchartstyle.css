@@ -1,0 +1,111 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace ai "http://ns.adobe.com/ai/2009";
+@namespace fc "http://ns.adobe.com/flashcatalyst/2009";
+@namespace lib "assets.graphics.efp_nimblegenTC.*";
+@namespace d "http://ns.adobe.com/fxg/2008/dt";
+@namespace flm "http://ns.adobe.com/flame/2008";
+@namespace local "*";
+@namespace preload "preload.*";
+@namespace amcharts "http://www.amcharts.com/com_internal";
+
+
+@font-face{ 
+	font-family: localVerdana;
+	font-weight: normal;
+	src: url("VERDANA.TTF");
+	embedAsCFF: false;
+}
+@font-face { 
+	src: url("GillSans_Regular.ttf"); 
+	fontFamily: gillsans; 
+	embedAsCFF: false; 
+	color:#000000;
+}
+.linechart
+{
+	fontFamily: localVerdana;
+	fontSize:10;
+	
+}
+
+
+amcharts|CategoryAxis{
+	fontFamily: localVerdana;
+}
+amcharts|ValueAxis{
+	fontFamily: localVerdana;
+}
+
+@font-face 
+{
+	src: url("cour.ttf");
+	fontFamily: "cour";
+	embedAsCFF: false;
+	unicode-range:
+		U+0020-U+0040, /* Punctuation, Numbers */
+		U+0041-U+005A, /* Upper-Case A-Z */
+		U+005B-U+0060, /* Punctuation and Symbols */
+		U+0061-U+007A, /* Lower-Case a-z */
+		U+007B-U+007E; /* Punctuation and Symbols */            
+}
+
+.MyTextStyle 
+{ 
+	font-family: Tahoma; 
+}
+
+
+
+.textstyle{
+	
+}  
+.toolTip {
+	backgroundColor: black;
+	backgroundAlpha: 1.0;
+	cornerRadius: 0;
+	color: white;
+} 
+.closeButton {
+	icon: Embed(source="/assets/close.png");
+	skin: ClassReference(null); 
+}
+
+mx|TitleWindow{
+	
+	borderAlpha: 1;
+	borderColor: haloSilver;
+	backgroundColor: haloSilver;
+	cornerRadius: 0;
+	
+}
+
+.titleerrorstyle{
+	
+	color:red;
+	font-size:14px;
+	font-thickness:-105;
+	font-sharpness:-400;
+	font-anti-alias-type:advanced;
+}
+
+
+
+.titleexportstyle{
+	
+	color:#000000;
+	font-size:14px;
+	font-thickness:-105;
+	font-sharpness:-400;
+	font-anti-alias-type:advanced;
+}
+mx|ToolTip 
+{
+	fontFamily: gillsans;
+	fontSize: 13;
+	color: #FFFFFF;
+	backgroundColor: #6C9270;
+}
+
+

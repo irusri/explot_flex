@@ -1,0 +1,10 @@
+{
+  "settings": {
+        "value": 19,
+        "policy_file": "http://v22.popgenie.org/crossdomain.xml",
+        "url": "http://v22.popgenie.org/aspwoodService/aspwood.php",
+        "urlsecond": "http://v22.popgenie.org/explotService/ex.php"
+              
+    }
+    
+} 

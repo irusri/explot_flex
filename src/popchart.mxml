@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" preloader="preload.CustomPreloader"  xmlns:preload="preload.*" minWidth="955" minHeight="600" creationComplete="eplant_init2();" xmlns:amcharts="http://www.amcharts.com/com_internal" xmlns:component="component.*" xmlns:dualpanel="com.rialvalue.components.dualpanel.*" xmlns:local="*">
+	<fx:Script>
+		<![CDATA[
+			import utils.DataGridUtils;
+		]]>    
+	</fx:Script>
+	<fx:Script source="popchartMain.as"></fx:Script>
+	<fx:Style source="popchartstyle.css"></fx:Style>
+	 
+	<fx:Declarations> 
+		<mx:SolidColorStroke id="s3"  weight="1"/>
+		<mx:NumberFormatter id="numberFormatter"
+							precision="2"
+							rounding="up" />
+		<mx:HTTPService id="serve_getConfigData" 
+						resultFormat="text"
+						url="popchart.json"
+						result="handle_config_files(event)" />
+		<mx:HTTPService id="serve_getExpressionData"  
+						useProxy="false"             
+						method="GET"
+						showBusyCursor="true" 
+						result="expressionDataResult(event)"
+						fault="expressionDataResultFault(event)"
+						resultFormat="text" />  
+	<!--	<s:RadioButtonGroup change="categoryaxisvariablechange(event);" id="xyvariables"/> -->
+		<s:RadioButtonGroup change="radiochangecharttype();" id="changeChartType"/> 
+		<s:RadioButtonGroup  id="dataproviderScale"/> 
+<!--		<s:RadioButtonGroup change="radiochangeswitchTypeGroup(event);" id="switchTypeGroup"/> 
+-->		<mx:SeriesSlide 
+			id="slideIn" 
+			duration="1000" 
+			direction="up" 
+			/>
+		<mx:SeriesSlide 
+			id="slideOut"  
+			duration="1" 
+			direction="down"
+			/>
+		<mx:SeriesSlide 
+			id="slideRight" 
+			duration="1000" 
+			direction="right"
+			/>
+		<mx:WipeDown id="wdown" duration="1000" />
+		<mx:WipeUp id="wup" duration="1000" />
+		<mx:Parallel id="customMoveExport"  >
+			<!--<mx:Move duration="1000" xTo="{(this.parent.width  - addbox.width) / 2}" yTo="200" />
+	-->		<mx:WipeDown duration="1000" />
+		</mx:Parallel>
+	</fx:Declarations>
+	
+	<!-- first chart
+	<amcharts:AmSerialChart
+		width="100%"  
+		height="100%" 
+		id="chart" 
+		
+		categoryField="label"
+		plotAreaFillAlphas="[0]">
+		<amcharts:valueAxes>
+			<amcharts:ValueAxis id="amvalueaxix" titleTextColor="#CC0000" title="VISITS PER DAY"  />                    
+		</amcharts:valueAxes>
+		<amcharts:categoryAxis>
+			<amcharts:CategoryAxis    id="catAxis" gridCount="20"  labelRotation="45"   fontSize="14"   tickLength="2"/>
+			
+		</amcharts:categoryAxis>
+		
+		<amcharts:chartScrollbar>
+			<amcharts:ChartScrollbar id="samcrollbar" hideResizeGrips="false"   height="20"/>                    
+		</amcharts:chartScrollbar>
+		
+		<amcharts:chartCursor>
+			<amcharts:ChartCursor/>                    
+		</amcharts:chartCursor>
+		
+	</amcharts:AmSerialChart>     -->          
+		
+
+		
+	<s:HGroup  width="100%" height="100%">
+		<mx:Canvas width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off" id="bigmain">
+			
+	
+		<mx:Canvas width="100%" height="100%" id="main">    
+			
+		</mx:Canvas>
+			<mx:Box   y="36" x="65.5" height="25" id="firstbox"  backgroundColor="white"  visible="{modelPartList.length>0}" width="150" label="ASPWOOD"/>
+			<mx:Box  width="150"  visible="{!firstbox.visible}"  backgroundColor="white" id="secondbox"  height="25"    label="ASPWOOD"/>
+		</mx:Canvas>
+	<mx:Canvas showEffect="showme" hideEffect="hideme" id="toolbox"  horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundAlpha="0.8" backgroundColor="#93d39a" width="220" height="100%">
+		<mx:Image toolTip="Help" click="{helpGo();}"  right="40" top="3" width="24" height="24" buttonMode="true" source="@Embed(source='assets/help.png')"   />
+		
+		<mx:Button toolTip="Hide controls" id="closeButton" right="6" top="5" buttonMode="true" click="{toolbox.percentWidth=0;addbox.visible=false;toolbox.visible=false;bigmain.percentWidth=100}"  styleName="closeButton" useHandCursor="true"  />
+		
+		<mx:VBox verticalGap="0" visible="{legendVisible}" y="30"  height="100%" width="100%">
+			<mx:Box id="mainres"  maxHeight="600" verticalScrollPolicy="auto" horizontalScrollPolicy="off"   width="100%" />
+			<mx:Label  x="15" height="37"  fontSize="13" fontWeight="bold" fontFamily="localVerdana" htmlText="{' Here are the results for '+modelPartList.length+' samples\n and '+dp.length.toString()+' gene.'}"/>
+		<!--	<mx:Label x="15" text=""  visible="{cantfind!='' &amp;&amp; !inputtxt.visible }" fontSize="13" fontWeight="bold" fontFamily="localVerdana" />
+		-->	<mx:TextArea fontFamily="localVerdana" editable="false" borderStyle="none" visible="{cantfind.length > 3 &amp;&amp; !inputtxt.visible }"  borderVisible="false" contentBackgroundAlpha="0.0"  x="25"  width="220"  fontSize="12" height="55" fontWeight="bold" color="black" htmlText="{'The expression vaues for following requested primary gene/probeset ids cannot be found in our database.'}"/>
+			<mx:TextArea verticalScrollPolicy="auto" selectable="true"  editable="false" borderStyle="none" visible="{cantfind!='' &amp;&amp; !inputtxt.visible }"   borderVisible="false" contentBackgroundAlpha="0.0" paddingLeft="10"  x="25" height="200" width="180"  fontSize="12" fontWeight="bold" color="red" htmlText="{cantfind}"/>
+			
+		</mx:VBox>
+		
+		 
+		
+		
+			
+	
+		<!--	<amcharts:AmLegend visible="{legendVisible}" y="20"  id="clegend"
+							fontWeight="bold"
+							reversedOrder="true" 
+							rollOverGraphAlpha="0.1" 
+							dataProvider="{chart}" 
+							width="100%"
+							marginLeft="0"
+							marginRight="0"
+							align="center"
+							markerType="circle"
+							
+							switchType="v"/> POPTR_0006s13370,  POPTR_0011s10540,  POPTR_0006s11770,  POPTR_0002s02390,  POPTR_0004s17470,  POPTR_0010s18590,  POPTR_0001s28760,  POPTR_0001s28670,  POPTR_0001s28570-->
+		<mx:TextArea x="25" y="26" visible="{!legendVisible}" fontSize="12" fontWeight="bold" text="POPTR_0001s00480,  POPTR_0001s00410,  POPTR_0001s00390,  POPTR_0002s11160,  POPTR_0007s07730,  POPTR_0002s19720" id="inputtxt" width="160" height="600" />
+		<!--	<s:CheckBox  visible="{!legendVisible}"  x="30" y="620" fontFamily="localVerdana"  label="Experiment vs expression" fontSize="14" fontWeight="bold" id="explotchk"/>
+		
+	<s:CheckBox y="620" visible="{legendVisible}"   x="30"  fontFamily="localVerdana"  label="Recalculate To logarithmic" change="{logChk.selected?va.logarithmic=true:va.logarithmic=false;va.baseValue=1;mainchart.validateNow();}" fontSize="14" fontWeight="bold" id="logChk"/>
+	
+		<s:CheckBox y="640" visible="{legendVisible}"   x="30"  fontFamily="localVerdana"  label="Recalculate To Percents" change="{percentsChk.selected?va.recalculateToPercents=true:va.recalculateToPercents=false;mainchart.validateNow();}" fontSize="14" fontWeight="bold" id="percentsChk"/>
+-->		
+		 <mx:Button x="25" width="160"  top="642" visible="{!legendVisible}" label="Search" click="addChart()" />
+		<mx:Button  width="30" buttonMode="true" top="1" left="2" visible="{!inputtxt.visible}" toolTip="Edit input list" click="{legendVisible=false;addbox.visible=false;}" icon="@Embed(source='assets/edit-icon.png')"/>
+		<mx:Button width="30" visible="{legendVisible}" toolTip="Additional Controls" buttonMode="true" top="1" left="40" click="{addbox.visible=true;}"  icon="@Embed(source='assets/setting.png')"/>	
+	 
+	</mx:Canvas>
+   
+	</s:HGroup>  
+
+	<mx:TitleWindow showEffect="{wdown}" hideEffect="{wup}"    visible="false" titleStyleName="titleexportstyle"   dropShadowVisible="true" cornerRadius="5"  modalTransparencyColor="#93d39a" modalTransparency="0.2" modalTransparencyDuration="5"  chromeColor="#ccffcc" backgroundColor="#93d39a" contentBackgroundAlpha="0.2" fontFamily="gillsans"  titleIcon="@Embed(source='assets/done.png')"   title="Additional controls" id="addbox" top="0"  width="400" close="{addbox.visible=false;}" height="340" showCloseButton="true" right="223">
+	<!--	<mx:Box   mouseDown="{addbox.startDrag()}" paddingTop="-20" mouseUp="{addbox.stopDrag()}" width="100%" height="10" backgroundColor="red"/>
+-->		<mx:Form fontSize="13" width="100%" height="100%">
+			<mx:FormItem height="0" visible="false"  label="Data Source:">
+				<s:RadioButton  id="aspwoodrb" label="Aspwood data" groupName="dataproviderScale" x="22" y="58"/>
+				<s:RadioButton selected="true" id="explotrb" label="Explot data" groupName="dataproviderScale" x="22" y="10"/>
+			</mx:FormItem>
+	
+			<mx:FormItem  label="Value Axis Range:">
+				<mx:HSlider y="660" values="[1,14]" thumbCount="2" id="valuaxisMax" minimum="-2" maximum="100"	change="sliderChangeTwo(event);"/>
+			</mx:FormItem>	
+			<mx:FormItem  label="Chart Type:">
+				<s:RadioButton selected="true"  id="linerb" label="Line" groupName="changeChartType" x="22" y="10"/>
+				<s:RadioButton  id="smoothlinerb" label="Smoothed Line" groupName="changeChartType" x="22" y="34"/>
+				<s:RadioButton id="columnrb" label="Column" groupName="changeChartType" x="22" y="34"/>
+<!--				<s:RadioButton id="steprb" label="Step" groupName="changeChartType" x="22" y="34"/>-->
+				
+			</mx:FormItem>	
+		<!--	<mx:FormItem  label="Legend switch type:">
+				<mx:HBox verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<s:RadioButton selected="true" id="vrb" label="v" groupName="switchTypeGroup" x="22" y="34"/>
+				<s:RadioButton id="xrb" label="x" groupName="switchTypeGroup" x="22" y="34"/>
+				</mx:HBox> 
+			</mx:FormItem>	-->
+			
+			<mx:FormItem  label="Show round edges:">
+				<s:CheckBox change="{addChart();}" selected="true"  x="30" y="584" fontFamily="localVerdana"  label="" fontSize="14" fontWeight="bold" id="bullededgeChk"/>
+			</mx:FormItem>		
+			<mx:FormItem  label="Hide Balloons:">
+				<s:CheckBox change="{addChart();}"  x="30" y="602" fontFamily="localVerdana"  label="" fontSize="14" fontWeight="bold" id="showballonsChk"/>
+			</mx:FormItem>
+			<mx:FormItem  label="Change Category Axis:">
+				<!--<s:RadioButton selected="true" id="samplerb" label="Sample Vs Experssion" groupName="xyvariables" x="22" y="10"/>
+				<s:RadioButton  id="exprb" label="Experiment Vs Experssion" groupName="xyvariables" x="22" y="58"/>-->
+				<mx:ComboBox contentBackgroundAlpha="1"  selectedIndex="2" change="categoryaxisvariablechange(event)" id="changeaxis"    >
+					<mx:ArrayCollection>
+						<fx:Object label="Sample" data="sample"/>
+						<fx:Object label="Experiment" data="experiment"/>
+						<fx:Object label="Sample Description" data="gsm_desc"/>
+						<fx:Object label="Experiment Description" data="gse_desc"/>
+					<fx:Object label="Sample Information" data="gsm_info"/>
+					</mx:ArrayCollection>
+				</mx:ComboBox >	
+			</mx:FormItem>
+			 
+			<mx:FormItem  >
+				<mx:Button label="save as image" click="{saveAsImage()}"/>
+				<mx:Button label="Export Data table" click="{adg1.visible=false;DataGridUtils.loadDataGridInExcel(adg1);}"/>
+				
+			</mx:FormItem>
+		
+			<!--		<mx:FormItem visible="false"  label="Category Axis Range:">
+				<mx:HSlider y="660"  id="cataxisMax" minimum="1" maximum="100" snapInterval="1"  value="20"	change="cataxisChange(event);"/>
+			</mx:FormItem>-->
+		</mx:Form>
+	</mx:TitleWindow> 
+	
+	
+	<mx:Image toolTip="Show controls" top="0" right="0" width="22" height="22" buttonMode="true" source="@Embed(source='assets/arrow-show.png')"  id="showbtn" visible="{!toolbox.visible}" click="{toolbox.visible=true;toolbox.width=220}" />
+
+	<mx:Text toolTip="{versiontxt.text}" id="versiontxt" top="3" right="65" fontSize="10" fontFamily="gillsans" text="{'2012/10/10 16:48:00'}" />
+	
+	
+	
+	<mx:AdvancedDataGrid x="20" visible="false" width="600" height="500" id="adg1" designViewDataType="flat" dataProvider="{dp}">              
+	</mx:AdvancedDataGrid>
+	
+	
+
+	
+	
+</s:Application>

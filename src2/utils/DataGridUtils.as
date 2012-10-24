@@ -211,7 +211,7 @@ package utils
 			}
 			else
 			{
-				return "\r\n";
+				return "\n";
 			}
 		}
 
@@ -220,7 +220,7 @@ package utils
 			//Pass the htmltable in a variable so that it can be delivered
 			//to the backend script
 			var variables:URLVariables = new URLVariables(); 
-			variables.htmlTable	= copyData( dataGrid, TYPE_TSV, EXPORT_ALL );
+			variables.htmlTable	= copyData( dataGrid, TYPE_CSV, EXPORT_ALL );
 			
 			//Setup a new request and make sure that we are 
 			//sending the data through a post
