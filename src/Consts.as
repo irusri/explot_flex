@@ -7,6 +7,6 @@ package
 		public static const CSV_EXPORT_SCRIPT:String = "csvExport.php";
 		public static const CSV_IMPORT_SCRIPT:String = "csvImport.php";
 		
-		public static const BUTTON_WIDTH:uint = 90;		
+		public static const BUTTON_WIDTH:uint = 90; 		
 	}
 }
